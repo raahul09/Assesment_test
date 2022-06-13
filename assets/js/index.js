@@ -120,13 +120,13 @@ $(document).ready(function () {
   });
 
   $('.navbar-nav.nav-second.products-nav > .nav-item.nav-item-second').on('click', function (e) {
-    $(this).siblings().find('.navbar-three').removeClass('show-nav-three');
+    $(this).siblings().find('.navbar-three').removeClass('open');
     if (!$(this).hasClass('open')) {
       $(this).find('.navbar-three').addClass('show-nav-three');
     } else {
       $(this).find('.navbar-three').removeClass('show-nav-three');
     }
-    $(this).siblings().removeClass('show-nav-three');
+    $(this).siblings().removeClass('open');
     $(this).toggleClass('open');
   });
 
@@ -136,27 +136,26 @@ $(document).ready(function () {
     $(this).find('.navbar-nav.nav-second').addClass("last-nav-open");
     $('.product-nav-container').addClass("final-nav");
   })
-  // mouse over
-  $(".main-nav-one.product").on('mouseover', function () {
-    setTimeout(function () {
-      $('.product-nav-container').addClass('open');
-    }, 200);
-  });
-  $(".product-nav-container").on('mouseover', function () {
+  $(".main-nav-one.product").mouseenter(function () {
+    clearTimeout($(this).data('timeoutId'));
     $('.product-nav-container').addClass('open');
-    
+  }).mouseleave(function () {
+    var someElement = $('.product-nav-container'),
+      timeoutId = setTimeout(function () {
+        if ($('.product-nav-container:hover').length != 0 && $('.product-nav-container').hasClass('open')) {
+          $(".product-nav-container").on('mouseleave', function () {
+            $('.product-nav-container').removeClass('open');
+            menuBtn.removeClass('open');
+            menuOpen = false;
+          });
+        } else {
+          setTimeout(function () {
+            $(".product-nav-container").removeClass('open');
+          }, 650);
+        }
+      }, 650);
+    //set the timeoutId, allowing us to clear this trigger if the mouse comes back over
+    someElement.data('timeoutId', 300);
   });
-  $(".product-nav-container").on('mouseout', function () {
-    $('.product-nav-container').removeClass('open');
-  });
-  // mouseout
-  $(".main-nav-one.product").on('mouseout', function (e) {
-    if (!$('.product-nav-container').hasClass('open')) {
-      $(".product-nav-container").on('mouseout', function () {
-        $('.product-nav-container').removeClass('open');
-        menuBtn.removeClass('open');
-        menuOpen = false;
-      });
-    }
-  });
+
 });
