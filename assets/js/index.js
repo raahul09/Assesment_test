@@ -25,13 +25,14 @@ $(document).ready(function () {
         <li class="nav-item nav-item-one inspiration-nav-item-main"><div class="main-nav-one inspiration_"><div class="main-nav-one-link"><a>INSPIRATION</a></div></div><div class="nav-level"></div></li>
     </ul>
     `);
-  // mobile menu event
+  // HMB menu event
   const menuBtn = $('.menu-btn');
   let menuOpen = false;
   var mainMenu = false;
   menuBtn.on('click', function (e) {
     if (!menuOpen) {
       $('.product-nav-container').addClass('open');
+      menuBtn.addClass('open');
       menuOpen = true;
     } else {
       $('.product-nav-container').removeClass('open final-nav');
@@ -79,35 +80,35 @@ $(document).ready(function () {
   slider.controller.control = thumbs;
   thumbs.controller.control = slider;
 
-  jQuery('body').on('click', '.kettles-thumbs .swiper-slide', function () {
+  $('body').on('click', '.kettles-thumbs .swiper-slide', function () {
     colorChange();
   });
-  jQuery('body').on('click', '.hero-section .swiper-pagination-bullet', function () {
+  $('body').on('click', '.hero-section .swiper-pagination-bullet', function () {
     colorChange();
   });
 
   function colorChange() {
     setTimeout(function () {
-      var color = jQuery('.kettles-slider .swiper-slide.swiper-slide-active img').attr('data-color');
-      var colorVal = jQuery('.kettles-slider .swiper-slide.swiper-slide-active img').attr('data-color-val');
+      var color = $('.kettles-slider .swiper-slide.swiper-slide-active img').attr('data-color');
+      var colorVal = $('.kettles-slider .swiper-slide.swiper-slide-active img').attr('data-color-val');
       var url = "https://www.smeg.com/products/KLF03" + colorVal + "EU";
-      var heroSection = jQuery('.hero-section');
+      var heroSection = $('.hero-section');
       heroSection.removeClass('blue red pink beige');
       heroSection.addClass(color);
-      jQuery('.btn-dark').attr('href', url);
+      $('.btn-dark').attr('href', url);
     }, 100)
   }
 
-  jQuery('body').on('click', '.music-btn a', function () {
-    jQuery('body').addClass('modal-loaded');
+  $('body').on('click', '.music-btn a', function () {
+    $('body').addClass('modal-loaded');
   });
 
-  jQuery('body').on('click', '.close', function () {
-    jQuery('body').removeClass('modal-loaded');
+  $('body').on('click', '.close', function () {
+    $('body').removeClass('modal-loaded');
   });
 
 
-  // desktop nav
+  // desktop navbar event
   $(".main-nav-one.product ").on('click', function () {
     if (!mainMenu) {
       $('.product-nav-container').addClass("open");
@@ -137,21 +138,24 @@ $(document).ready(function () {
   })
   // mouse over
   $(".main-nav-one.product").on('mouseover', function () {
-    setTimeout(() => {
+    setTimeout(function () {
       $('.product-nav-container').addClass('open');
     }, 200);
   });
   $(".product-nav-container").on('mouseover', function () {
     $('.product-nav-container').addClass('open');
+    
   });
   $(".product-nav-container").on('mouseout', function () {
     $('.product-nav-container').removeClass('open');
   });
-  // mouse out
+  // mouseout
   $(".main-nav-one.product").on('mouseout', function (e) {
     if (!$('.product-nav-container').hasClass('open')) {
       $(".product-nav-container").on('mouseout', function () {
         $('.product-nav-container').removeClass('open');
+        menuBtn.removeClass('open');
+        menuOpen = false;
       });
     }
   });
